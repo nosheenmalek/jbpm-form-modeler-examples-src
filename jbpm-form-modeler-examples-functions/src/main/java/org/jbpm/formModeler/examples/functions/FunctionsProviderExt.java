@@ -5,10 +5,10 @@ import bsh.Interpreter;
 import org.jbpm.formModeler.core.processing.formProcessing.FunctionsProvider;
 
 import javax.enterprise.context.Dependent;
-import javax.enterprise.inject.Alternative;
+import javax.enterprise.inject.Specializes;
 import javax.inject.Inject;
 
-@Alternative
+@Specializes
 @Dependent
 public class FunctionsProviderExt extends FunctionsProvider {
     @Inject
