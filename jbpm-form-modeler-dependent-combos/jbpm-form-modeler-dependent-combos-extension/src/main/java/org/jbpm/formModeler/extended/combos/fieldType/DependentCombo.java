@@ -17,6 +17,7 @@ import org.jbpm.formModeler.core.processing.FormProcessor;
 import org.jbpm.formModeler.core.processing.FormStatusData;
 import org.jbpm.formModeler.extended.combos.DependentComboValuesProvider;
 import org.jbpm.formModeler.extended.combos.DependentComboValuesProviderManager;
+import org.jbpm.formModeler.service.LocaleManager;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -32,6 +33,9 @@ public class DependentCombo implements CustomFieldType {
     @Inject
     protected FormProcessor formProcessor;
 
+    @Inject
+    protected LocaleManager localeManager;
+
     @Override
     public String getDescription( Locale locale ) {
         return "Dependent Combo";
@@ -41,7 +45,19 @@ public class DependentCombo implements CustomFieldType {
     public String getShowHTML( Object value, String fieldName, String namespace, boolean required, boolean readonly, String... params ) {
         String result = "<div>";
 
-        if (value != null) result += value;
+        if (value != null) {
+            FormStatusData status = formProcessor.read(formRenderContextManager.getRootContext( namespace ).getForm(), namespace);
+
+            String rootField = params[0];
+            DependentComboValuesProvider provider = comboValuesProviderManager.getProvider( params[ 1 ] );
+
+            String rootValue = ( String ) status.getCurrentValue( rootField );
+
+            Map<String, String> elements = provider.getValues( rootValue, localeManager.getCurrentLang() );
+
+            String stringValue = elements.get( value );
+            if (stringValue != null) result += stringValue;
+        }
 
         result += "</div>";
 
@@ -63,7 +79,7 @@ public class DependentCombo implements CustomFieldType {
 
             Map<String, String> elements = null;
 
-            if (provider != null) elements = provider.getValues( rootValue );
+            if (provider != null) elements = provider.getValues( rootValue, localeManager.getCurrentLang() );
             if ( elements == null ) elements = new HashMap<String, String>(  );
 
             Map<String, Object> context = new HashMap<String, Object>();

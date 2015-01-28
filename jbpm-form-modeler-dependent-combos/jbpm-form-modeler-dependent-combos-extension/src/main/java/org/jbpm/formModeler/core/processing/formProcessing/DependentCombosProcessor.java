@@ -13,6 +13,7 @@ import org.jbpm.formModeler.core.processing.FormStatusData;
 import org.jbpm.formModeler.extended.combos.DependentComboValuesProvider;
 import org.jbpm.formModeler.extended.combos.DependentComboValuesProviderManager;
 import org.jbpm.formModeler.extended.combos.fieldType.DependentCombo;
+import org.jbpm.formModeler.service.LocaleManager;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -20,8 +21,12 @@ public class DependentCombosProcessor extends FormChangeProcessor {
 
 
     private static transient Logger log = LoggerFactory.getLogger( DependentCombosProcessor.class );
+
     @Inject
     protected DependentComboValuesProviderManager providerManager;
+
+    @Inject
+    protected LocaleManager localeManager;
 
     @Override
     public FormChangeResponse doProcess( FormChangeResponse response ) {
@@ -51,7 +56,8 @@ public class DependentCombosProcessor extends FormChangeProcessor {
 
                     DependentComboValuesProvider provider = providerManager.getProvider( providerId );
                     if (provider != null) {
-                        Map<String, String> combovalues = provider.getValues( rootValue );
+
+                        Map<String, String> combovalues = provider.getValues( rootValue, localeManager.getCurrentLang() );
                         if (combovalues != null) {
                             for (String key : combovalues.keySet()) {
                                 Object[] value = new Object[3];

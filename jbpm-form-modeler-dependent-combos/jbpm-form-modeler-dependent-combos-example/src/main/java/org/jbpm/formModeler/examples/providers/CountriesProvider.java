@@ -24,7 +24,8 @@ public class CountriesProvider implements RangeProvider {
         return "Countries";
     }
 
-    @Override public Map<String, String> getRangesMap( String s ) {
+    @Override
+    public Map<String, String> getRangesMap( String s ) {
         return countries;
     }
 }

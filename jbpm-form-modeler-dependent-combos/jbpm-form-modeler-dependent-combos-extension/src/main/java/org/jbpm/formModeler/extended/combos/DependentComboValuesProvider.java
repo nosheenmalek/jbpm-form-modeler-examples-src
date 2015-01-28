@@ -4,5 +4,5 @@ import java.util.Map;
 
 public interface DependentComboValuesProvider {
     String getId();
-    Map<String, String> getValues( String rootValue );
+    Map<String, String> getValues( String rootValue, String locale );
 }

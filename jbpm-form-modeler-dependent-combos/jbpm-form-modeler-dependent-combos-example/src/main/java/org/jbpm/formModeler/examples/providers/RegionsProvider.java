@@ -40,7 +40,7 @@ public class RegionsProvider implements DependentComboValuesProvider {
     }
 
     @Override
-    public Map<String, String> getValues( String rootValue ) {
+    public Map<String, String> getValues( String rootValue, String locale ) {
         return regions.get( rootValue );
     }
 }
