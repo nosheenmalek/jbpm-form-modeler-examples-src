@@ -11,5 +11,7 @@
 
   <modules>
     <module>jbpm-form-modeler-examples-functions</module>
+    <module>jbpm-form-modeler-combos-extension</module>
+    <module>jbpm-form-modeler-dependent-combos-example</module>
   </modules>
 </project>
